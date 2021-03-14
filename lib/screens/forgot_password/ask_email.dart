@@ -6,24 +6,19 @@ import 'package:ecellapp/widgets/screen_background.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AskEmailScreen extends StatefulWidget {
+class AskEmailScreen extends StatelessWidget {
   AskEmailScreen({Key key, this.onSubmit, this.emailController}) : super(key: key);
 
   final Function onSubmit;
   final TextEditingController emailController;
-
-  @override
-  _AskEmailScreenState createState() => _AskEmailScreenState();
-}
-
-class _AskEmailScreenState extends State<AskEmailScreen> {
-  ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double bottom = MediaQuery.of(context).viewInsets.bottom;
+    double top = MediaQuery.of(context).viewInsets.top + 56;
     double heightFactor = height / 1000;
     if (scrollController.hasClients) {
       if (bottom > height * 0.25) {
@@ -52,15 +47,14 @@ class _AskEmailScreenState extends State<AskEmailScreen> {
                   Expanded(
                       flex: 5,
                       child: Container(
-                        padding: EdgeInsets.fromLTRB(0, heightFactor * 100, 0, 0),
+                        padding: EdgeInsets.only(top: top),
                         alignment: Alignment.center,
                         child: Text(
                           "Step 1/3",
-                          style:
-                              TextStyle(fontSize: 35 * heightFactor, fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                         ),
                       )),
-                  Flexible(
+                  Expanded(
                     flex: 7,
                     child: Column(
                       children: [
@@ -117,12 +111,7 @@ class _AskEmailScreenState extends State<AskEmailScreen> {
                         SizedBox(height: 23 * heightFactor),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: D.horizontalPadding),
-                          child: Column(
-                            children: [
-                              EmailField(widget.emailController),
-                              SizedBox(height: 30 * heightFactor),
-                            ],
-                          ),
+                          child: EmailField(emailController),
                         ),
                       ],
                     ),
@@ -149,9 +138,7 @@ class _AskEmailScreenState extends State<AskEmailScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                           ),
                           color: C.authButtonColor,
-                          onPressed: () {
-                            widget.onSubmit();
-                          },
+                          onPressed: () => onSubmit(),
                           child: Container(
                             height: 60,
                             width: 120,
